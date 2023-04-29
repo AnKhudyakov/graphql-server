@@ -4,6 +4,8 @@
   "description": "json-graphql-server",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
+    "vercel-build": "npm run build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",

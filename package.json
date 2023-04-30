@@ -2,17 +2,23 @@
   "name": "json-graphql-server",
   "version": "1.0.0",
   "description": "json-graphql-server",
-  "main": "index.js",
-  "scripts": {
-    "start": "node index.js",
-    "vercel-build": "npm run build",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "main": "api/index.js",
+  "license": "MIT",
+  "type": "module",
   "author": "",
-  "license": "ISC",
+  "scripts": {
+    "dev": "nodemon dev"
+  },
   "dependencies": {
+    "apollo-server-core": "^3.12.0",
+    "apollo-server-express": "^3.12.0",
     "cors": "^2.8.5",
     "express": "^4.18.2",
-    "json-graphql-server": "^2.3.2"
+    "graphql": "^16.6.0"
+  },
+  "devDependencies": {
+    "consola": "^2.15.3",
+    "dotenv": "^10.0.0",
+    "nodemon": "^2.0.15"
   }
 }

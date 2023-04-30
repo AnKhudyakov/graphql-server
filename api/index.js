@@ -48,6 +48,12 @@ const startApolloServer = async (app, httpServer) => {
   const server = new ApolloServer({
     typeDefs,
     resolvers,
+    playground: {
+      endpoint: "/graphql",
+      settings: {
+        "editor.theme": "dark",
+      },
+    },
     plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
   });
 

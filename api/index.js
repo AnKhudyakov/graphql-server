@@ -1,6 +1,6 @@
 import { ApolloServer, gql } from "apollo-server-express";
 import { ApolloServerPluginDrainHttpServer } from "apollo-server-core";
-import http from "http";
+import https from "https";
 import express from "express";
 import cors from "cors";
 import products from "../db.js";
@@ -10,7 +10,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-const httpServer = http.createServer(app);
+const httpServer = https.createServer(app);
 
 const typeDefs = gql`
   type Rating {

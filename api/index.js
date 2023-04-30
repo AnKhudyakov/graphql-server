@@ -68,6 +68,12 @@ const startApolloServer = async (app, httpServer) => {
   server.applyMiddleware({ app });
   await new Promise((resolve) => httpServer.listen({ port: 3004 }, resolve));
   console.log(`🚀 Server ready at http://localhost:3004${server.graphqlPath}`);
+  // Close the server before starting a new instance
+  server.stop().then(() => {
+    server.start().then(() => {
+      server.applyMiddleware({ app });
+    });
+  });
 };
 
 startApolloServer(app, httpServer);

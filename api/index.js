@@ -66,10 +66,12 @@ const startApolloServer = async (app, httpServer) => {
 
   await server.start();
   server.applyMiddleware({ app });
-  await new Promise((resolve) => httpServer.listen({ port: 3004 }, resolve));
-  console.log(`🚀 Server ready at http://localhost:3004${server.graphqlPath}`);
-};
+ };
 
 startApolloServer(app, httpServer);
+
+httpServer.listen({ port: 3004 }, () => {
+  console.log(`🚀 Server ready at https://localhost:3004`);
+});
 
 export default httpServer;

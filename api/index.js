@@ -1,26 +1,16 @@
 import { ApolloServer, gql } from "apollo-server-express";
 import { ApolloServerPluginDrainHttpServer } from "apollo-server-core";
-import { createServer as createHttpsServer } from "https";
-import { createServer as createHttpServer } from "http";
+import http from "http";
 import express from "express";
 import cors from "cors";
 import products from "../db.js";
-import { readFileSync } from "fs";
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
 
-// Use Vercel-provided SSL certificate for HTTPS server
-const httpsOptions = {
-  key: readFileSync("/etc/ssl/private/ssl-cert-snakeoil.key"),
-  cert: readFileSync("/etc/ssl/certs/ssl-cert-snakeoil.pem"),
-};
-
-// Create HTTP and HTTPS servers
-const httpServer = createHttpServer(app);
-const httpsServer = createHttpsServer(httpsOptions, app);
+const httpServer = http.createServer(app);
 
 const typeDefs = gql`
   type Rating {
@@ -64,26 +54,15 @@ const startApolloServer = async (app, httpServer) => {
         "editor.theme": "dark",
       },
     },
-    cache: {
-      type: "memory",
-      maxSize: 100 * 1024 * 1024, // 100 MB
-      cacheableResponse: {
-        statuses: [200],
-      },
-    },
     plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
   });
 
   await server.start();
   server.applyMiddleware({ app });
-
- // Listen on both HTTP and HTTPS servers
- httpServer.listen({ port: 80 }, () => {
-  console.log(`🚀 HTTP server ready`);
-});
-httpsServer.listen({ port: 443 }, () => {
-  console.log(`🚀 HTTPS server ready`);
-});
+  await new Promise((resolve) => httpServer.listen({ port: 3004 }, resolve));
+  console.log(`🚀 Server ready at http://localhost:3004${server.graphqlPath}`);
 };
 
-startApolloServer(app, httpServer, httpsServer);
+startApolloServer(app, httpServer);
+
+export default httpServer;

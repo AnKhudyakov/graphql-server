@@ -54,6 +54,13 @@ const startApolloServer = async (app, httpServer) => {
         "editor.theme": "dark",
       },
     },
+    cache: {
+      type: "memory",
+      maxSize: 100 * 1024 * 1024, // 100 MB
+      cacheableResponse: {
+        statuses: [200],
+      },
+    },
     plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
   });
 
